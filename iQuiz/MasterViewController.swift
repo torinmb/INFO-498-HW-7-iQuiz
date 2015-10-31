@@ -8,10 +8,10 @@
 
 import UIKit
 
-class MasterViewController: UITableViewController {
+class MasterViewController: UITableViewController{
 
     var detailViewController: DetailViewController? = nil
-    var objects = ["Mathmatics", "Marvel Super Heroes", "Science"]
+    var objects = [("Mathmatics", "Study party?"), ("Marvel Super Heroes", "shrooms & costumes"), ("Science", "Space and stuff")]
 
 
     override func viewDidLoad() {
@@ -49,7 +49,7 @@ class MasterViewController: UITableViewController {
             if let indexPath = self.tableView.indexPathForSelectedRow {
                 let object = objects[indexPath.row]
                 let controller = (segue.destinationViewController as! UINavigationController).topViewController as! DetailViewController
-                controller.detailItem = object
+                controller.detailItem = object.0
                 controller.navigationItem.leftBarButtonItem = self.splitViewController?.displayModeButtonItem()
                 controller.navigationItem.leftItemsSupplementBackButton = true
             }
@@ -67,16 +67,17 @@ class MasterViewController: UITableViewController {
     }
 
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        
-        let cell = tableView.dequeueReusableCellWithIdentifier("Cell", forIndexPath: indexPath)
-//        if (cell == nil) {
-//            cell = UITableViewCell(style: UITableViewCellStyle.Subtitle, reuseIdentifier: "Cell")
-//        }
-        
+        let cellIdentifier = "Cell"
+        var cell = tableView.dequeueReusableCellWithIdentifier(cellIdentifier) as UITableViewCell?
+        if cell == nil {
+            cell = UITableViewCell(style: UITableViewCellStyle.Subtitle, reuseIdentifier: cellIdentifier) as UITableViewCell
+        }
         let object = objects[indexPath.row]
+        cell!.textLabel!.text = object.0
+        cell!.detailTextLabel!.text = object.1
+        return cell!
+
         
-        cell.textLabel!.text = object
-        return cell
     }
 
 
